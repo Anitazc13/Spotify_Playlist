@@ -24,7 +24,7 @@ module Services
         body: { grant_type: "client_credentials" }
       }
       response = post("/api/token", options)
-      JSON.parse(response.body, symbolize_names:true)
+      JSON.parse(response.body, symbolize_names: true)
     end
   end
 end
