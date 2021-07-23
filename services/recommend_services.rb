@@ -25,7 +25,3 @@ module Services
   end
 end
 # HD
-pp RecommendService.randomlist("BQAgrwQ3ieSuGIFS1UxBG0RhzsuEa62ATm5xB03_p4WBDnAudwfwZ_s2c6GQezF5Y8G5mQC47QS0fMY_WuU",
-                               "rock")
-# puts the time in ms
-# User the method in the main.rb
