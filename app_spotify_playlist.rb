@@ -1,13 +1,17 @@
 require_relative "helpers/presenter"
 require_relative "helpers/requester"
+require_relative "services/token"
 
 class SpotifyPlaylist
   include Presenter
   include Requester
 
-  def initialize; end
+  def initialize
+    @token = ""
+  end
 
   def start
+    create_session
     puts welcome
     option = option_main_menu.to_i
     case option
@@ -16,6 +20,10 @@ class SpotifyPlaylist
     when 3 then puts "Save playlist"
     when 4 then puts "Exit"
     end
+  end
+
+  def create_session
+    @token = Services::Token.request_authorization
   end
 end
 
