@@ -17,6 +17,7 @@ class SpotifyPlaylist
     obtain_list_genres
     p obtain_list_songs
     puts welcome
+    show_table([{ title: "Song 2", artist: "Blur", duration: 180 }])
     option = option_main_menu.to_i
     case option
     when 1 then puts "Try again"
