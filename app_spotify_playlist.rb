@@ -46,4 +46,4 @@ class SpotifyPlaylist
 end
 
 spotify_playlist = SpotifyPlaylist.new
-#spotify_playlist.start
+spotify_playlist.start
