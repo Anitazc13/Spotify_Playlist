@@ -4,7 +4,7 @@ class RecommendService
   include HTTParty
   base_uri "https://api.spotify.com/v1/recommendations/"
 
-  def self.randomlist(token, gender)
+  def self.songs_list(token, gender)
     options = {
       headers: {
         Authorization: "Bearer #{token}"
