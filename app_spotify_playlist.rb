@@ -23,7 +23,7 @@ class SpotifyPlaylist
   end
 
   def create_session
-    @token = Services::Token.request_authorization
+    @token = Services::Token.request_authorization[:access_token]
   end
 end
 
