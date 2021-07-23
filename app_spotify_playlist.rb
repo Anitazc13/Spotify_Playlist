@@ -2,6 +2,7 @@ require_relative "helpers/presenter"
 require_relative "helpers/requester"
 require_relative "services/token"
 require_relative "services/playlist_service"
+require_relative "services/recommend_services"
 
 class SpotifyPlaylist
   include Presenter
@@ -13,7 +14,8 @@ class SpotifyPlaylist
 
   def start
     create_session
-    obtain_list_recommendations
+    obtain_list_genres
+    p obtain_list_songs
     puts welcome
     option = option_main_menu.to_i
     case option
@@ -28,16 +30,31 @@ class SpotifyPlaylist
     @token = Services::Token.request_authorization[:access_token]
   end
 
-  def obtain_list_recommendations
+  def obtain_list_genres
     genres_list = Services::PlaylistService.genres_list(@token)
-    # "BQCrmvI5-MXf-cP0Giu6zu9qZ2njhtsqQUOhq_N0VFU-KGGZDWdHsf8I5GNjFVLkpevrJMjG4HmhY_vnp1k")
-    # genres_list[:genres].class #ARRAY
-    p genres_list[:genres] #gives you list of genres of spotify app
+    genres_list[:genres] # gives you list of genres of spotify app
   end
 
+  # (gender)
+  def obtain_list_songs
+    recomend_list = Services::RecommendService.songs_list(@token.to_s, "rock")[:tracks]
+    # HARCODE
+    artists = recomend_list.map { |a| a[:artists].map { |n| n[:name] } }.flatten
+    titles = recomend_list.map { |a| a[:name] }
+    duration = recomend_list.map { |a| seconds_to_hms(a[:duration_ms] / 1000) }
+    (1..artists.length).map do |position|
+      { title: titles[position - 1], artist: artists[position - 1], duration: duration[position - 1] }
+    end
+  end
 
+  def seconds_to_hms(sec)
+    # "%02d:%02d:%02d" % [sec / 3600, sec / 60 % 60, sec % 60]
+    # format("%<min>02d:%<seg>02d", min = sec / 60 % 60, seg = sec % 60)
+    # "%02d:%02d" % [sec / 3600, sec / 60 % 60, sec % 60]
+    "#{sec / 60 % 60}:#{sec % 60}"
+  end
 end
 
 spotify_playlist = SpotifyPlaylist.new
-#spotify_playlist.start
+# spotify_playlist.start
 spotify_playlist.start
