@@ -17,13 +17,16 @@ class SpotifyPlaylist
     obtain_list_genres
     obtain_list_songs
     puts welcome
-    show_table(obtain_list_songs)
-    option = option_main_menu.to_i
-    case option
-    when 1 then puts "Try again"
-    when 2 then puts "Random"
-    when 3 then puts "Save playlist"
-    when 4 then puts "Exit"
+    option = 0
+    until option == 4
+      show_table(obtain_list_songs)
+      option = option_main_menu.to_i
+      case option
+      when 1 then puts "Try again"
+      when 2 then puts "Random"
+      when 3 then puts "Save playlist"
+      when 4 then puts "Exit"
+      end
     end
   end
 
@@ -50,12 +53,9 @@ class SpotifyPlaylist
 
   def seconds_to_hms(sec)
     # "%02d:%02d:%02d" % [sec / 3600, sec / 60 % 60, sec % 60]
-    # format("%<min>02d:%<seg>02d", min = sec / 60 % 60, seg = sec % 60)
-    # "%02d:%02d" % [sec / 3600, sec / 60 % 60, sec % 60]
     "#{sec / 60 % 60}:#{sec % 60}"
   end
 end
 
 spotify_playlist = SpotifyPlaylist.new
-# spotify_playlist.start
 spotify_playlist.start
