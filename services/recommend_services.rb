@@ -11,19 +11,20 @@ class RecommendService
 
       },
       query: {
-        seed_genres: "#{gender}"
+        seed_genres: gender.to_s
       }
     }
     response = get("/", options)
     raise HTTParty::ResponseError, response unless response.success?
+
     # list(@token).success? --> true if the parse_responsed is ok
     JSON.parse(response.body, symbolize_names: true) if response.body
-    #to prove this methos use the hardcode
-    #p PlaylistService.list("BQBblZTBx6xJSK9G0HdLSBzbldUd14Z737NCDqzouZ57FVOcvq_p28SlF1MPYy2ey7pOJvkwAg9Qh3r7cvc").class
+    # to prove this methos use the hardcode
   end
 end
-#HD
-pp RecommendService.randomlist("BQAgrwQ3ieSuGIFS1UxBG0RhzsuEa62ATm5xB03_p4WBDnAudwfwZ_s2c6GQezF5Y8G5mQC47QS0fMY_WuU","rock")
+# HD
+pp RecommendService.randomlist("BQAgrwQ3ieSuGIFS1UxBG0RhzsuEa62ATm5xB03_p4WBDnAudwfwZ_s2c6GQezF5Y8G5mQC47QS0fMY_WuU",
+                               "rock")
 # puts the time in ms
 # PARSE to the string body
 # User the method in the main.rb
