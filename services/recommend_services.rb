@@ -9,7 +9,7 @@ class RecommendService
       headers: {
         Authorization: "Bearer #{token}"
 
-      }
+      },
       query: {
         seed_genres: "#{gender}"
       }
@@ -22,9 +22,8 @@ class RecommendService
     #p PlaylistService.list("BQBblZTBx6xJSK9G0HdLSBzbldUd14Z737NCDqzouZ57FVOcvq_p28SlF1MPYy2ey7pOJvkwAg9Qh3r7cvc").class
   end
 end
-
-p RecommendService.randomlist("BQAgrwQ3ieSuGIFS1UxBG0RhzsuEa62ATm5xB03_p4WBDnAudwfwZ_s2c6GQezF5Y8G5mQC47QS0fMY_WuU","rock").class
+#HD
+pp RecommendService.randomlist("BQAgrwQ3ieSuGIFS1UxBG0RhzsuEa62ATm5xB03_p4WBDnAudwfwZ_s2c6GQezF5Y8G5mQC47QS0fMY_WuU","rock")
 # puts the time in ms
-# GET the list
 # PARSE to the string body
 # User the method in the main.rb
