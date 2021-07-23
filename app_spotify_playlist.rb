@@ -15,9 +15,9 @@ class SpotifyPlaylist
   def start
     create_session
     obtain_list_genres
-    p obtain_list_songs
+    obtain_list_songs
     puts welcome
-    show_table([{ title: "Song 2", artist: "Blur", duration: 180 }])
+    show_table(obtain_list_songs)
     option = option_main_menu.to_i
     case option
     when 1 then puts "Try again"
