@@ -14,10 +14,12 @@ class SpotifyPlaylist
 
   def start
     create_session
+    obtain_list_genres
+    obtain_list_songs
     puts welcome
     option = 0
     until option == 4
-      show_table([{ title: "Song 2", artist: "Blur", duration: 180 }])
+      show_table(obtain_list_songs)
       option = option_main_menu.to_i
       case option
       when 1 then puts "Try again"
@@ -33,20 +35,26 @@ class SpotifyPlaylist
   end
 
   def obtain_list_genres
-    genres_list = Services::PlaylistService.genres_list("BQCrmvI5-MXf-cP0Giu6zu9qZ2njhtsqQUOhq_N0VFU-KGGZDWdHsf8I5GNjFVLkpevrJMjG4HmhY_vnp1k")#@token)
-    # genres_list[:genres].class #ARRAY
-    genres_list[:genres] #gives you list of genres of spotify app
+    genres_list = Services::PlaylistService.genres_list(@token)
+    genres_list[:genres] # gives you list of genres of spotify app
   end
 
-  def obtain_list_songs#(gender)
-    recomend_list = Services::RecommendService.songs_list("BQCrmvI5-MXf-cP0Giu6zu9qZ2njhtsqQUOhq_N0VFU-KGGZDWdHsf8I5GNjFVLkpevrJMjG4HmhY_vnp1k","rock")[:tracks]#@token)
-    #HARCODE
-     pp recomend_list#gives you list of genres of spotify app
-     p recomend_list.first.keys
-     p recomend_list.first[:duration_ms]/60000.0 
-     p recomend_list.size
+  # (gender)
+  def obtain_list_songs
+    recomend_list = Services::RecommendService.songs_list(@token.to_s, "rock")[:tracks]
+    # HARCODE
+    artists = recomend_list.map { |a| a[:artists].map { |n| n[:name] } }.flatten
+    titles = recomend_list.map { |a| a[:name] }
+    duration = recomend_list.map { |a| seconds_to_hms(a[:duration_ms] / 1000) }
+    (1..artists.length).map do |position|
+      { title: titles[position - 1], artist: artists[position - 1], duration: duration[position - 1] }
+    end
   end
 
+  def seconds_to_hms(sec)
+    # "%02d:%02d:%02d" % [sec / 3600, sec / 60 % 60, sec % 60]
+    "#{sec / 60 % 60}:#{sec % 60}"
+  end
 end
 
 spotify_playlist = SpotifyPlaylist.new
