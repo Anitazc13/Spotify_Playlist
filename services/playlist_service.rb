@@ -19,7 +19,6 @@ class PlaylistService
     #to prove this methos use the hardcode
     #p PlaylistService.list("BQBblZTBx6xJSK9G0HdLSBzbldUd14Z737NCDqzouZ57FVOcvq_p28SlF1MPYy2ey7pOJvkwAg9Qh3r7cvc").class
   end
-
 end
 
 # puts the time in ms
