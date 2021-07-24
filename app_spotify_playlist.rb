@@ -57,5 +57,16 @@ class SpotifyPlaylist
   end
 end
 
-spotify_playlist = SpotifyPlaylist.new
+filename = ARGV.empty? ? "list_songs.json" : ARGV.shift
+
+if File.exist?(filename)
+  File.open(filename, "r+")
+else
+  File.open(filename, "w+")
+end
+
+spotify_playlist = SpotifyPlaylist.new(filename)
 spotify_playlist.start
+
+file.close
+
