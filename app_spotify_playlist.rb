@@ -61,7 +61,7 @@ class SpotifyPlaylist
 
   def ramdom
     @genres = obtain_list_genres
-    puts "#{@genres}"
+    puts @genres.to_s
     puts "---------"
     show_table(obtain_list_songs(@genres))
   end
