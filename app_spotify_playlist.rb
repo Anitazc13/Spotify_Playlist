@@ -8,8 +8,9 @@ class SpotifyPlaylist
   include Presenter
   include Requester
 
-  def initialize
+  def initialize(filename)
     @token = ""
+    @filename = Store.new(filename) # create a class to save the data into a json #TASK OF EDER xD
   end
 
   def start
