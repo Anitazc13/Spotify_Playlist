@@ -70,3 +70,8 @@ spotify_playlist.start
 
 file.close
 
+puts [
+  "\n####################################",
+  "#   Thanks for using Spotify App   #",
+  "####################################\n\n"
+]
