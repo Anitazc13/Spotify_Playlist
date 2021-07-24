@@ -21,7 +21,7 @@ class SpotifyPlaylist
       option = option_main_menu.to_i
       case option
       when 1 then try_again
-      when 2 then ramdom
+      when 2 then random_genres
       when 3 then puts "Save playlist"
       when 4 then puts "Exit"
       end
@@ -45,6 +45,7 @@ class SpotifyPlaylist
     artists = recomend_list.map { |a| a[:artists].map { |n| n[:name] } }
     titles = recomend_list.map { |a| a[:name] }
     duration = recomend_list.map { |a| seconds_to_hms(a[:duration_ms] / 1000) }
+    # duration_ms = recomend_list.map { |a| seconds_to_hms(a[:duration_ms]) }.sum
     (1..artists.length).map do |position|
       { title: titles[position - 1], artist: artists[position - 1].join(", "), duration: duration[position - 1] }
     end
@@ -59,7 +60,7 @@ class SpotifyPlaylist
     show_table(obtain_list_songs(@genres))
   end
 
-  def ramdom
+  def random_genres
     @genres = obtain_list_genres
     puts @genres.to_s
     puts "---------"
