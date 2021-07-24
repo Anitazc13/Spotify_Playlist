@@ -15,16 +15,14 @@ class SpotifyPlaylist
 
   def start
     create_session
-    obtain_list_genres
-    obtain_list_songs
     puts welcome
+    ramdom
     option = 0
     until option == 4
-      show_table(obtain_list_songs)
       option = option_main_menu.to_i
       case option
-      when 1 then puts "Try again"
-      when 2 then puts "Random"
+      when 1 then try_again
+      when 2 then random_genres
       when 3 then puts "Save playlist"
       when 4 then puts "Exit"
       end
@@ -37,24 +35,37 @@ class SpotifyPlaylist
 
   def obtain_list_genres
     genres_list = Services::PlaylistService.genres_list(@token)
-    genres_list[:genres] # gives you list of genres of spotify app
+    p genres_list[:genres] # gives you list of genres of spotify app
+    genres_list[:genres].sample
   end
 
   # (gender)
-  def obtain_list_songs
-    recomend_list = Services::RecommendService.songs_list(@token.to_s, "rock")[:tracks]
+  def obtain_list_songs(genres)
+    recomend_list = Services::RecommendService.songs_list(@token.to_s, genres)[:tracks]
     # HARCODE
-    artists = recomend_list.map { |a| a[:artists].map { |n| n[:name] } }.flatten
+    artists = recomend_list.map { |a| a[:artists].map { |n| n[:name] } }
     titles = recomend_list.map { |a| a[:name] }
     duration = recomend_list.map { |a| seconds_to_hms(a[:duration_ms] / 1000) }
+    # duration_ms = recomend_list.map { |a| seconds_to_hms(a[:duration_ms]) }.sum
     (1..artists.length).map do |position|
-      { title: titles[position - 1], artist: artists[position - 1], duration: duration[position - 1] }
+      { title: titles[position - 1], artist: artists[position - 1].join(", "), duration: duration[position - 1] }
     end
   end
 
   def seconds_to_hms(sec)
     # "%02d:%02d:%02d" % [sec / 3600, sec / 60 % 60, sec % 60]
     "#{sec / 60 % 60}:#{sec % 60}"
+  end
+
+  def try_again
+    show_table(obtain_list_songs(@genres))
+  end
+
+  def random_genres
+    @genres = obtain_list_genres
+    puts @genres.to_s
+    puts "---------"
+    show_table(obtain_list_songs(@genres))
   end
 end
 
