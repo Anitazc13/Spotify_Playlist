@@ -8,9 +8,9 @@ class SpotifyPlaylist
   include Presenter
   include Requester
 
-  def initialize(filename)
+  def initialize(hours_travel)
     @token = ""
-    @filename = Store.new(filename) # create a class to save the data into a json #TASK OF EDER xD
+    @hours_travel = hours_travel#Store.new(filename) # create a class to save the data into a json #TASK OF EDER xD
   end
 
   def start
@@ -58,15 +58,9 @@ class SpotifyPlaylist
   end
 end
 
-filename = ARGV.empty? ? "list_songs.json" : ARGV.shift
+hours_travel = ARGV.empty? ? 1 : ARGV.shift
 
-if File.exist?(filename)
-  File.open(filename, "r+")
-else
-  File.open(filename, "w+")
-end
-
-spotify_playlist = SpotifyPlaylist.new(filename)
+spotify_playlist = SpotifyPlaylist.new(hours_travel)
 spotify_playlist.start
 
 file.close
