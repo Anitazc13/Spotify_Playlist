@@ -10,23 +10,24 @@ class SpotifyPlaylist
 
   def initialize(hours_travel)
     @token = ""
-    @hours_travel = hours_travel#Store.new(filename) # create a class to save the data into a json #TASK OF EDER xD
+    @hours_travel = hours_travel.to_i#Store.new(filename) # create a class to save the data into a json #TASK OF EDER xD
   end
 
   def start
     create_session
-    obtain_list_genres
+    show_genres(obtain_list_genres)
     obtain_list_songs
     puts welcome
     option = 0
-    until option == 4
-      show_table(obtain_list_songs)
+    until option == 5
+      show_table(obtain_list_songs,@hours_travel)
       option = option_main_menu.to_i
       case option
-      when 1 then puts "Try again"
-      when 2 then puts "Random"
-      when 3 then puts "Save playlist"
-      when 4 then puts "Exit"
+      when 1 then puts "obtain_list_genres"
+      when 2 then puts "Try again"
+      when 3 then puts "Random"
+      when 4 then puts "Save playlist"
+      when 5 then puts "Exit"
       end
     end
   end
@@ -44,18 +45,15 @@ class SpotifyPlaylist
   def obtain_list_songs
     recomend_list = Services::RecommendService.songs_list(@token.to_s, "rock")[:tracks]
     # HARCODE
-    artists = recomend_list.map { |a| a[:artists].map { |n| n[:name] } }.flatten
-    titles = recomend_list.map { |a| a[:name] }
-    duration = recomend_list.map { |a| seconds_to_hms(a[:duration_ms] / 1000) }
+      artists = recomend_list.map { |a| a[:artists].map { |n| n[:name] } }.flatten
+      titles = recomend_list.map { |a| a[:name] }
+      duration = recomend_list.map { |a| a[:duration_ms]}
     (1..artists.length).map do |position|
       { title: titles[position - 1], artist: artists[position - 1], duration: duration[position - 1] }
     end
   end
 
-  def seconds_to_hms(sec)
-    # "%02d:%02d:%02d" % [sec / 3600, sec / 60 % 60, sec % 60]
-    "#{sec / 60 % 60}:#{sec % 60}"
-  end
+
 end
 
 hours_travel = ARGV.empty? ? 1 : ARGV.shift
