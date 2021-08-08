@@ -20,7 +20,6 @@ class SpotifyPlaylist
     show_genres(obtain_list_genres)
     obtain_list_songs
     puts welcome
-    ramdom
     option = 0
     until option == 5
       show_table(obtain_list_songs, @hours_travel)
@@ -46,7 +45,7 @@ class SpotifyPlaylist
     genres_list[:genres]
   end
 
-  def obtain_list_songs
+  def obtain_list_songs(genres="rock")
     recomend_list = Services::RecommendService.songs_list(@token.to_s, genres)[:tracks]
     recomend_list.map do |track|
       song = {}
