@@ -39,8 +39,9 @@ class SpotifyPlaylist
 
   def obtain_list_genres
     genres_list = Services::PlaylistService.genres_list(@token)
-    p genres_list[:genres] # gives you list of genres of spotify app
-    genres_list[:genres].sample
+    # p genres_list[:genres] # gives you list of genres of spotify app
+    # genres_list[:genres].sample
+    genres_list[:genres]
   end
 
   # (gender)
@@ -71,8 +72,6 @@ class SpotifyPlaylist
     puts "---------"
     show_table(obtain_list_songs(@genres))
   end
-end
-
 end
 
 hours_travel = ARGV.empty? ? 1 : ARGV.shift
