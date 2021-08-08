@@ -10,7 +10,9 @@ class SpotifyPlaylist
 
   def initialize(hours_travel)
     @token = ""
-    @hours_travel = hours_travel.to_i#Store.new(filename) # create a class to save the data into a json #TASK OF EDER xD
+    @hours_travel = hours_travel.to_i # Store.new(filename)
+    # create a class to save the data into a json
+    # TASK OF EDER xD
   end
 
   def start
@@ -21,7 +23,7 @@ class SpotifyPlaylist
     ramdom
     option = 0
     until option == 5
-      show_table(obtain_list_songs,@hours_travel)
+      show_table(obtain_list_songs, @hours_travel)
       option = option_main_menu.to_i
       case option
       when 1 then puts "obtain_list_genres"
@@ -44,16 +46,15 @@ class SpotifyPlaylist
     genres_list[:genres]
   end
 
-  # (gender)
-  def obtain_list_songs(genres)
+  def obtain_list_songs
     recomend_list = Services::RecommendService.songs_list(@token.to_s, genres)[:tracks]
-    # HARCODE
-    artists = recomend_list.map { |a| a[:artists].map { |n| n[:name] } }
-    titles = recomend_list.map { |a| a[:name] }
-    duration = recomend_list.map { |a| seconds_to_hms(a[:duration_ms] / 1000) }
-    # duration_ms = recomend_list.map { |a| seconds_to_hms(a[:duration_ms]) }.sum
-    (1..artists.length).map do |position|
-      { title: titles[position - 1], artist: artists[position - 1].join(", "), duration: duration[position - 1] }
+    recomend_list.map do |track|
+      song = {}
+      song[:artist] = track[:artists].map { |n| n[:name] }.join(", ")
+      song[:title] = track[:name]
+      song[:duration] = track[:duration_ms]
+      song[:uri] = track[:uri]
+      song
     end
   end
 
