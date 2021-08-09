@@ -11,6 +11,7 @@ class SpotifyPlaylist
   def initialize(hours_travel)
     @token = ""
     @hours_travel = hours_travel.to_i # Store.new(filename)
+    @song_list = []
     # create a class to save the data into a json
     # TASK OF EDER xD
   end
@@ -20,10 +21,9 @@ class SpotifyPlaylist
     show_genres(obtain_list_genres)
     obtain_list_songs
     puts welcome
-    ramdom
     option = 0
     until option == 5
-      show_table(obtain_list_songs, @hours_travel)
+      show_table(@song_list, @hours_travel)
       option = option_main_menu.to_i
       case option
       when 1 then puts "obtain_list_genres"
@@ -46,9 +46,9 @@ class SpotifyPlaylist
     genres_list[:genres]
   end
 
-  def obtain_list_songs
+  def obtain_list_songs(genres = "rock")
     recomend_list = Services::RecommendService.songs_list(@token.to_s, genres)[:tracks]
-    recomend_list.map do |track|
+    @song_list = recomend_list.map do |track|
       song = {}
       song[:artist] = track[:artists].map { |n| n[:name] }.join(", ")
       song[:title] = track[:name]
